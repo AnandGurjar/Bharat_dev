@@ -127,55 +127,31 @@ header ul li a:hover {
     margin-bottom: 10px;
 }
 
-/* Contact Us Section */
-.contact {
-    background-color: #3498db;
-    color: white;
-    padding: 50px 0;
+/.contact footer {
     text-align: center;
+    padding: 20px;
+    background-color: #f1f1f1;
 }
 
-.contact form {
-    width: 60%;
-    margin: 0 auto;
+.contact footer p {
+    font-size: 16px;
+    margin: 10px 0;
 }
 
-.contact input, .contact textarea {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: none;
-    font-size: 1rem;
-}
-
-.contact button {
-    background-color: #2ecc71;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.contact button:hover {
-    background-color: #27ae60;
-}
-
-/* Footer Section */
-footer {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-}
-
-footer .social-media a {
-    color: white;
+.contact footer a {
     text-decoration: none;
-    margin: 0 15px;
+    color: #0073e6;
 }
 
-footer .social-media a:hover {
+.contact footer a:hover {
     text-decoration: underline;
+}
+
+.contact footer .social-links {
+    margin-top: 10px;
+}
+
+.contact footer .social-links a {
+    margin: 0 15px;
+    font-size: 18px;
 }
