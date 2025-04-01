@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rails Mastery | Learn Ruby on Rails</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ruby: {
+                            50: '#fee2e2',
+                            100: '#fecaca',
+                            200: '#fca5a5',
+                            300: '#f87171',
+                            400: '#ef4444', // Ruby red
+                            500: '#dc2626', // Darker ruby
+                            600: '#b91c1c',
+                            700: '#991b1b',
+                            800: '#7f1d1d',
+                            900: '#450a0a',
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 10s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styles */
+        body {
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #f8f8f8;
+        }
+
+        /* Dark mode background */
+        .dark body {
+            background-color: #0a0a0a;
+        }
+
+        /* Button animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        /* Glow effects */
+        @keyframes glow-ruby {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(220, 38, 38, 0.7);
+                text-shadow: 0 0 5px rgba(220, 38, 38, 0.7);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(220, 38, 38, 1);
+                text-shadow: 0 0 10px rgba(220, 38, 38, 1);
+            }
+        }
+        
+        @keyframes glow-dark {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+                text-shadow: 0 0 5px rgba(239, 68, 68, 0.7);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(239, 68, 68, 1);
+                text-shadow: 0 0 10px rgba(239, 68, 68, 1);
+            }
+        }
+        
+        .glow {
+            animation: glow-ruby 2s infinite;
+        }
+        
+        .dark .glow {
+            animation: glow-dark 2s infinite;
+        }
+        
+        /* Ruby gem animations */
+        @keyframes rotate-gem {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .rotate-gem {
+            animation: rotate-gem 15s linear infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .rotate-gem:hover {
+            animation: rotate-gem 5s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.8));
+        }
+        
+        .rotate-gem:active {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(220, 38, 38, 1));
+        }
+        
+        /* Birds animation */
+        .bird-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .bird {
+            position: absolute;
+            color: rgba(220, 38, 38, 0.6);
+            font-size: 24px;
+        }
+        
+        .dark .bird {
+            color: rgba(239, 68, 68, 0.6);
+        }
+        
+        @keyframes fly-right {
+            0% { transform: translateX(-50px) translateY(0) rotate(0deg); }
+            100% { transform: translateX(calc(100vw + 50px)) translateY(-100px) rotate(360deg); }
+        }
+        
+        @keyframes fly-left {
+            0% { transform: translateX(calc(100vw + 50px)) translateY(100px) rotate(0deg); }
+            100% { transform: translateX(-50px) translateY(0) rotate(360deg); }
+        }
+        
+        .fly-right {
+            animation: fly-right 20s linear infinite;
+        }
+        
+        .fly-left {
+            animation: fly-left 25s linear infinite;
+        }
+        
+        /* Floating animation for logo */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Falling leaves */
+        .leaves-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        
+        .leaf {
+            position: absolute;
+            color: #dc2626;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .dark .leaf {
+            color: #ef4444;
+        }
+        
+        @keyframes fall-leaf {
+            0% { 
+                transform: translateY(-100px) translateX(0) rotate(0deg); 
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(calc(100vh + 100px)) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .falling {
+            animation: fall-leaf 8s linear forwards;
+        }
+        
+        /* Button hover effects */
+        .btn-hover {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Navbar border animation */
+        .nav-border {
+            position: relative;
+        }
+        
+        .nav-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #dc2626;
+            transition: width 0.3s ease;
+        }
+        
+        .dark .nav-border::after {
+            background-color: #ef4444;
+        }
+        
+        .nav-border:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
+    <!-- Dark mode toggle -->
+    <button id="darkModeToggle" class="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg hover:shadow-xl transition">
+        <i class="fas fa-moon dark:hidden text-ruby-600"></i>
+        <i class="fas fa-sun hidden dark:block text-ruby-500"></i>
+    </button>
+    
+    <!-- Birds flying across the screen -->
+    <div class="bird-container">
+        <div class="bird fly-right" style="top: 15%;">
+            <i class="fas fa-dove"></i>
+        </div>
+        <div class="bird fly-left" style="top: 30%; animation-delay: 2s;">
+            <i class="fas fa-dove"></i>
+        </div>
+        <div class="bird fly-right" style="top: 45%; animation-delay: 4s;">
+            <i class="fas fa-dove"></i>
+        </div>
+        <div class="bird fly-left" style="top: 60%; animation-delay: 6s;">
+            <i class="fas fa-dove"></i>
+        </div>
+    </div>
+    
+    <!-- Falling leaves container -->
+    <div class="leaves-container" id="leavesContainer"></div>
+
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-30 border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="flex items-center">
+                        <div class="rotate-gem floating">
+                            <i class="fas fa-gem text-4xl text-ruby-600 dark:text-ruby-500"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white ml-2">Rails<span class="text-ruby-600 dark:text-ruby-500">Mastery</span></h1>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-ruby-600 dark:hover:text-ruby-400 transition nav-border">Courses</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-ruby-600 dark:hover:text-ruby-400 transition nav-border">Tutorials</a>
+                    <a href="#lectures" class="text-gray-700 dark:text-gray-300 hover:text-ruby-600 dark:hover:text-ruby-400 transition nav-border">Lectures</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-ruby-600 dark:hover:text-ruby-400 transition nav-border">Community</a>
+                </nav>
+                <button class="bg-ruby-600 hover:bg-ruby-700 dark:bg-ruby-500 dark:hover:bg-ruby-600 text-white px-6 py-2 rounded-full font-medium transition shadow hover:shadow-lg">
+                    <i class="fas fa-user mr-2"></i>Sign In
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16 relative z-20">
+        <!-- Hero Section -->
+        <section class="text-center mb-20">
+            <div class="max-w-4xl mx-auto">
+                <button id="logoBtn" class="rotate-gem floating mx-auto mb-8 focus:outline-none">
+                    <i class="fas fa-gem text-7xl text-ruby-600 dark:text-ruby-500"></i>
+                </button>
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-ruby-600 to-ruby-800 dark:from-ruby-400 dark:to-ruby-600">
+                        Master Ruby on Rails
+                    </span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto">
+                    Advance your web development skills with our expert-led courses. 
+                    Choose your path and start building professional applications today.
+                </p>
+                
+                <!-- Dark mode toggle for mobile -->
+                <div class="md:hidden mb-10">
+                    <button id="mobileDarkModeToggle" class="bg-ruby-600 hover:bg-ruby-700 dark:bg-ruby-500 dark:hover:bg-ruby-600 text-white px-6 py-3 rounded-full text-sm font-medium transition shadow-md">
+                        <i class="fas fa-moon dark:hidden mr-2"></i>
+                        <i class="fas fa-sun hidden dark:inline-block mr-2"></i>
+                        Toggle Dark Mode
+                    </button>
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-6 mt-12">
+                    <!-- Beginner Lecture Button -->
+                    <button id="beginnerBtn" class="bg-ruby-600 hover:bg-ruby-700 dark:bg-ruby-600 dark:hover:bg-ruby-700 text-white px-8 py-5 rounded-xl font-bold transition btn-hover glow relative overflow-hidden group">
+                        <span class="absolute inset-0 bg-gradient-to-r from-ruby-400 to-ruby-600 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                        <span class="relative z-10 flex justify-center items-center">
+                            <i class="fas fa-seedling text-xl mr-3"></i>
+                            Beginner Lecture
+                        </span>
+                    </button>
+                    
+                    <!-- Advanced Lecture Button -->
+                    <button id="advancedBtn" class="bg-gray-900 hover:bg-black dark:bg-gray-800 dark:hover:bg-gray-700 text-white px-8 py-5 rounded-xl font-bold transition btn-hover relative overflow-hidden group">
+                        <span class="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-900 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                        <span class="relative z-10 flex justify-center items-center">
+                            <i class="fas fa-chart-line text-xl mr-3"></i>
+                            Advanced Lecture
+                        </span>
+                    </button>
+                    
+                    <!-- Pro Lecture Button -->
+                    <button id="proBtn" class="bg-gradient-to-r from-ruby-800 to-gray-900 hover:from-ruby-900 hover:to-black dark:from-ruby-700 dark:to-gray-900 dark:hover:from-ruby-800 dark:hover:to-gray-950 text-white px-8 py-5 rounded-xl font-bold transition btn-hover shadow-lg relative overflow-hidden group">
+                        <span class="absolute inset-0 bg-gradient-to-r from-ruby-600 to-ruby-800 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                        <span class="relative z-10 flex justify-center items-center">
+                            <i class="fas fa-crown text-xl mr-3"></i>
+                            PRO Lecture
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lectures Section -->
+        <section id="lectures" class="mb-24">
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Beginner Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition">
+                    <div class="p-6">
+                        <div class="text-ruby-600 dark:text-ruby-500 mb-4">
+                            <i class="fas fa-seedling text-5xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Beginner Path</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Start your Rails journey with our beginner-friendly tutorials covering all fundamentals.</p>
+                        <button id="beginnerDetails" class="w-full bg-ruby-100 hover:bg-ruby-200 dark:bg-ruby-900/50 dark:hover:bg-ruby-900 text-ruby-700 dark:text-ruby-300 font-medium py-3 px-4 rounded-lg transition flex items-center justify-center group">
+                            <span>View Details</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Advanced Card -->
+                <div class="bg-gray-900 dark:bg-gray-800 text-white rounded-xl shadow-lg overflow-hidden border border-gray-800 dark:border-gray-700 hover:shadow-xl transition">
+                    <div class="p-6">
+                        <div class="text-white dark:text-ruby-400 mb-4">
+                            <i class="fas fa-chart-line text-5xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white dark:text-white mb-4">Advanced Path</h3>
+                        <p class="text-gray-300 dark:text-gray-400 mb-6">Dive deeper into complex Rails concepts with our expert-led advanced lectures.</p>
+                        <button id="advancedDetails" class="w-full bg-gray-700 hover:bg-gray-600 dark:bg-gray-900/70 dark:hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-lg transition flex items-center justify-center group">
+                            <span>Explore Content</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Pro Card -->
+                <div class="bg-gradient-to-br from-ruby-700 to-gray-900 dark:from-ruby-700/80 dark:to-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                    <div class="p-6">
+                        <div class="text-white mb-4">
+                            <i class="fas fa-crown text-5xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">PRO Path</h3>
+                        <p class="text-gray-200 mb-6">Premium content, real-world projects, and exclusive community access.</p>
+                        <button id="proDetails" class="w-full bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-4 rounded-lg transition border border-white/20 hover:border-white/30 flex items-center justify-center group">
+                            <span>See Benefits</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal for Beginner Lecture -->
+        <div id="beginnerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-ruby-600 dark:text-ruby-500">
+                        <i class="fas fa-seedling mr-2"></i>Beginner Lecture
+                    </h3>
+                    <button id="closeBeginnerModal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 text-gray-600 dark:text-gray-300">
+                    <p>Perfect for absolute beginners, our Beginner Lecture covers:</p>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li>Ruby language fundamentals</li>
+                        <li>MVC architecture and Rails conventions</li>
+                        <li>Database migrations and associations</li>
+                        <li>Basic CRUD operations with ActiveRecord</li>
+                        <li>Simple authentication implementation</li>
+                        <li>Building your first Rails application</li>
+                    </ul>
+                    <div class="pt-4">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">You'll learn to build:</h4>
+                        <p>A complete blog application with user authentication and comment features.</p>
+                    </div>
+                    <button class="w-full bg-ruby-600 hover:bg-ruby-700 dark:bg-ruby-500 dark:hover:bg-ruby-600 text-white py-3 rounded-lg font-bold mt-6 transition shadow hover:shadow-lg">
+                        Start Beginner Course Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Advanced Lecture -->
+        <div id="advancedModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-gray-900 dark:bg-gray-800 text-white rounded-xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-800 dark:border-gray-700">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-white dark:text-white">
+                        <i class="fas fa-chart-line mr-2"></i>Advanced Lecture
+                    </h3>
+                    <button id="closeAdvancedModal" class="text-gray-400 hover:text-white text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 text-gray-300 dark:text-gray-300">
+                    <p>For developers who know the basics and want to level up, this lecture covers:</p>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li>Metaprogramming in Rails</li>
+                        <li>Performance optimization techniques</li>
+                        <li>Advanced ActiveRecord queries</li>
+                        <li>API development with JSON:API</li>
+                        <li>Background jobs with ActiveJob/Sidekiq</li>
+                        <li>Rails security best practices</li>
+                    </ul>
+                    <div class="pt-4">
+                        <h4 class="font-semibold text-white dark:text-white">You'll learn to build:</h4>
+                        <p>A full-featured SaaS application with subscription billing and analytics.</p>
+                    </div>
+                    <button class="w-full bg-gray-700 hover:bg-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700 text-white py-3 rounded-lg font-bold mt-6 transition shadow hover:shadow-lg">
+                        Enroll in Advanced Course
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Pro Lecture -->
+        <div id="proModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-gradient-to-br from-ruby-700 to-gray-900 dark:from-ruby-600/90 dark:to-gray-800 rounded-xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-white">
+                        <i class="fas fa-crown mr-2"></i>PRO Lecture
+                    </h3>
+                    <button id="closeProModal" class="text-gray-300 hover:text-white text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 text-gray-200">
+                    <p>Everything you need to build professional applications at scale:</p>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li>Complete application templates</li>
+                        <li>Enterprise-grade authentication</li>
+                        <li>Microservices architecture</li>
+                        <li>Advanced testing strategies</li>
+                        <li>CI/CD pipelines</li>
+                        <li>Performance monitoring</li>
+                        <li>Real-world case studies</li>
+                    </ul>
+                    <div class="pt-4">
+                        <h4 class="font-semibold text-white">You'll learn to build:</h4>
+                        <p>A complete marketplace platform with payment processing, real-time notifications, and admin dashboard.</p>
+                    </div>
+                    <button class="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-lg font-bold mt-6 transition shadow hover:shadow-lg border border-white/20 hover:border-white/30">
+                        Join PRO Program
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-black text-white py-12 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-gem text-ruby-500 mr-2"></i>
+                        RailsMastery
+                    </h3>
+                    <p class="text-gray-400">The definitive learning platform for Ruby on Rails developers.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-ruby-400 dark:text-ruby-300">Learning Paths</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Beginner Track</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Intermediate Track</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Advanced Track</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">PRO Program</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-ruby-400 dark:text-ruby-300">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cheat Sheets</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Video Library</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Community Forums</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-ruby-400 dark:text-ruby-300">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 RailsMastery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const mobileDarkModeToggle = document.getElementById('mobileDarkModeToggle');
+        
+        function toggleDarkMode() {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+        
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        mobileDarkModeToggle.addEventListener('click', toggleDarkMode);
+        
+        // Initialize dark mode based on user preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Main buttons
+        const beginnerBtn = document.getElementById('beginnerBtn');
+        const advancedBtn = document.getElementById('advancedBtn');
+        const proBtn = document.getElementById('proBtn');
+        
+        // Detail buttons
+        const beginnerDetails = document.getElementById('beginnerDetails');
+        const advancedDetails = document.getElementById('advancedDetails');
+        const proDetails = document.getElementById('proDetails');
+        
+        // Modals
+        const beginnerModal = document.getElementById('beginnerModal');
+        const advancedModal = document.getElementById('advancedModal');
+        const proModal = document.getElementById('proModal');
+        
+        // Close buttons
+        const closeBeginnerModal = document.getElementById('closeBeginnerModal');
+        const closeAdvancedModal = document.getElementById('closeAdvancedModal');
+        const closeProModal = document.getElementById('closeProModal');
+        
+        // Logo button
+        const logoBtn = document.getElementById('logoBtn');
+        
+        // Button click handlers with shake and glow effects
+        function handleButtonClick(button, modal) {
+            button.addEventListener('click', function() {
+                // Add shake class
+                this.classList.add('shake');
+                
+                // Remove shake class after animation completes
+                setTimeout(() => {
+                    this.classList.remove('shake');
+                }, 500);
+                
+                // Show modal
+                modal.classList.remove('hidden');
+            });
+        }
+        
+        // Setup button handlers
+        handleButtonClick(beginnerBtn, beginnerModal);
+        handleButtonClick(advancedBtn, advancedModal);
+        handleButtonClick(proBtn, proModal);
+        
+        // Setup detail button handlers
+        handleButtonClick(beginnerDetails, beginnerModal);
+        handleButtonClick(advancedDetails, advancedModal);
+        handleButtonClick(proDetails, proModal);
+        
+        // Close modal handlers
+        closeBeginnerModal.addEventListener('click', () => beginnerModal.classList.add('hidden'));
+        closeAdvancedModal.addEventListener('click', () => advancedModal.classList.add('hidden'));
+        closeProModal.addEventListener('click', () => proModal.classList.add('hidden'));
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === beginnerModal) beginnerModal.classList.add('hidden');
+            if (event.target === advancedModal) advancedModal.classList.add('hidden');
+            if (event.target === proModal) proModal.classList.add('hidden');
+        });
+        
+        // Logo button effects
+        logoBtn.addEventListener('mouseenter', () => {
+            const gem = logoBtn.querySelector('i');
+            gem.style.filter = 'drop-shadow(0 0 10px rgba(220, 38, 38, 0.8))';
+            gem.style.transform = 'scale(1.1)';
+        });
+        
+        logoBtn.addEventListener('mouseleave', () => {
+            const gem = logoBtn.querySelector('i');
+            gem.style.filter = 'none';
+            gem.style.transform = 'scale(1)';
+        });
+        
+        logoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const gem = logoBtn.querySelector('i');
+            
+            // Add pulse effect
+            gem.style.animation = 'pulse-slow 1s';
+            
+            // Reset after animation
+            setTimeout(() => {
+                gem.style.animation = '';
+            }, 1000);
+            
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Additional birds animation
+        function createRandomBirds() {
+            const container = document.querySelector('.bird-container');
+            const birdTypes = ['fa-dove', 'fa-crow', 'fa-space-shuttle', 'fa-feather'];
+            
+            // Create 8 random birds
+            for (let i = 0; i < 8; i++) {
+                const bird = document.createElement('div');
+                bird.className = 'bird';
+                bird.style.top = `${Math.random() * 80 + 10}%`;
+                bird.style.opacity = `${Math.random() * 0.6 + 0.2}`;
+                bird.style.fontSize = `${Math.random() * 20 + 10}px`;
+                
+                // Random direction (left or right)
+                const direction = Math.random() > 0.5 ? 'fly-right' : 'fly-left';
+                bird.classList.add(direction);
+                
+                // Random delay
+                const delay = Math.random() * 30;
+                bird.style.animationDelay = `${delay}s`;
+                
+                // Random speed
+                const duration = Math.random() * 30 + 15;
+                bird.style.animationDuration = `${duration}s`;
+                
+                // Random bird icon
+                const birdType = birdTypes[Math.floor(Math.random() * birdTypes.length)];
+                bird.innerHTML = `<i class="fas ${birdType}"></i>`;
+                
+                container.appendChild(bird);
+            }
+        }
+        
+        // Falling leaves effect
+        function createLeaves() {
+            const container = document.getElementById('leavesContainer');
+            const leafTypes = ['fa-leaf', 'fa-leaf-maple', 'fa-leaf-oak'];
+            
+            // Create 15 leaves
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = `${Math.random() * 100}%`;
+                leaf.style.top = '0';
+                leaf.style.animationDelay = `${Math.random() * 5}s`;
+                leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Random leaf type (using standard leaf for this example)
+                leaf.innerHTML = `<i class="fas fa-leaf"></i>`;
+                
+                container.appendChild(leaf);
+            }
+        }
+        
+        // Trigger falling leaves on scroll
+        function animateLeavesOnScroll() {
+            const leaves = document.querySelectorAll('.leaf');
+            let scrollPosition = window.scrollY;
+            
+            if (scrollPosition > 100) {
+                leaves.forEach(leaf => {
+                    if (!leaf.classList.contains('falling')) {
+                        leaf.classList.add('falling');
+                        leaf.style.animationDuration = `${6 + Math.random() * 6}s`;
+                        leaf.style.left = `${Math.random() * 100}%`;
+                    }
+                });
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createRandomBirds();
+            createLeaves();
+            
+            // Set up scroll listener for leaves
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(animateLeavesOnScroll);
+            });
+            
+            // Initial check in case page loads scrolled down
+            animateLeavesOnScroll();
+        });
+    </script>
+</body>
+</html>
