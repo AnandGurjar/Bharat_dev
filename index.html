@@ -3,114 +3,1215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tech Sessions - Full Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>RailsMasters | Ultimate Ruby on Rails Learning Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        
+        :root {
+            --primary: #c51f1a;
+            --primary-light: #e74c3c;
+            --secondary: #2d3748;
+            --accent: #38b2ac;
+            --terminal-bg: #1e1e1e;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .rainbow-border {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--accent), var(--primary));
+            background-size: 300% 300%;
+            animation: gradient 5s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .rotate-icon:hover {
+            transform: rotate(15deg);
+        }
+        
+        .community-section {
+            background: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .community-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-icon:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(197, 31, 26, 0.5));
+        }
+        
+        .countup {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .terminal {
+            background-color: var(--terminal-bg);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .terminal-header {
+            height: 32px;
+            background: linear-gradient(90deg, #3a3a3a, #2e2e2e);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+        
+        .terminal-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-button.close {
+            background-color: #ff5f56;
+        }
+        
+        .terminal-button.minimize {
+            background-color: #ffbd2e;
+        }
+        
+        .terminal-button.maximize {
+            background-color: #27c93f;
+        }
+        
+        .terminal-title {
+            color: #b3b3b3;
+            font-size: 12px;
+            text-align: center;
+            flex-grow: 1;
+            padding-right: 30px;
+        }
+        
+        .terminal-body {
+            padding: 16px;
+            color: #f8f8f2;
+            line-height: 1.5;
+            font-size: 15px;
+            position: relative;
+        }
+        
+        .terminal-prompt {
+            color: #50fa7b;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #f8f8f2;
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .typed-cursor {
+            opacity: 1;
+            animation: blink 0.7s infinite;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .path-highlight {
+            color: #bd93f9;
+        }
+        
+        .command-highlight {
+            color: #8be9fd;
+        }
+        
+        .comment-highlight {
+            color: #6272a4;
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.5s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .roadmap-stage {
+            transition: all 0.3s ease;
+        }
+        
+        .roadmap-stage:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .code-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        
+        .code-line:hover .code-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .active-step {
+            border-left: 4px solid var(--primary);
+            background-color: rgba(197, 31, 26, 0.1);
+        }
+    </style>
 </head>
-<body>
-
-    <!-- Header Section -->
-    <header>
-        <nav>
-            <div class="container">
-                <h1>Tech Sessions</h1>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Upcoming Sessions</a></li>
-                    <li><a href="#">Technologies</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+<body class="antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-2">
+                        <i class="fas fa-code text-3xl gradient-text"></i>
+                        <span class="text-xl font-bold text-gray-900">Rails<span class="gradient-text">Masters</span></span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-red-600 px-3 py-2 font-medium transition duration-300">Learn</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 px-3 py-2 font-medium transition duration-300">Community</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 px-3 py-2 font-medium transition duration-300">Challenges</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 px-3 py-2 font-medium transition duration-300">Roadmap</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 px-3 py-2 font-medium transition duration-300">Blog</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <button class="px-4 py-2 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="px-4 py-2 rounded-full text-gray-700 hover:bg-gray-100 transition duration-300">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="bg-gradient-to-r from-red-700 to-red-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition duration-300 transform hover:scale-105">
+                        Login / Signup
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-red-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
-        </nav>
-    </header>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50">Learn</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50">Community</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50">Challenges</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50">Roadmap</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50">Blog</a>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <div class="flex items-center px-5 space-x-3">
+                        <button class="w-full bg-gradient-to-r from-red-700 to-red-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition duration-300">
+                            Login / Signup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Weekly Upcoming Sessions Section -->
-    <section class="sessions">
-        <div class="container">
-            <h2>Upcoming Sessions</h2>
-            <div class="sessions-list">
-                <div class="session">
-                    <h3>Session 1: Ruby On Rails</h3>
-                    <p>Integrate Stripe payment Gateway</p>
-                    <p class="date">Date: March 29, 2025</p>
+    <!-- Hero Section with Terminal -->
+    <section class="relative overflow-hidden bg-gray-50 pt-20 pb-32">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-red-500 to-red-700 opacity-10"></div>
+            <svg class="absolute bottom-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1" d="M0,192L48,176C96,160,192,128,288,138.7C384,149,480,203,576,229.3C672,256,768,256,864,245.3C960,235,1056,213,1152,202.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 slide-in">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                        Become a <span class="gradient-text">Rails Master</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8" style="animation-delay: 0.2s;">
+                        Join the most interactive Ruby on Rails learning platform with real-world projects, code reviews, and mentorship.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4" style="animation-delay: 0.4s;">
+                        <button class="bg-gradient-to-r from-red-700 to-red-500 text-white px-8 py-3 rounded-lg hover:shadow-lg transform transition duration-300 hover:scale-105">
+                            Start Learning <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button class="bg-white text-gray-800 px-8 py-3 rounded-lg border border-gray-200 hover:bg-gray-50 hover:shadow-md transform transition duration-300 hover:scale-105">
+                            <i class="fas fa-play-circle text-red-600 mr-2"></i> Watch Demo
+                        </button>
+                    </div>
+                    <div class="mt-10 flex items-center space-x-4">
+                        <div class="flex -space-x-2">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/11.jpg" alt="User 1">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/men/12.jpg" alt="User 2">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/13.jpg" alt="User 3">
+                        </div>
+                        <div>
+                            <div class="h-1 bg-gray-200 rounded-full w-32">
+                                <div class="h-1 bg-red-500 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600">Active members learning now</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="session">
-                    <h3>Session 2: Ruby On Rails</h3>
-                    <p>Live Chat Using Action Cable</p>
-                    <p class="date">Date: April 05, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 3: Ruby On Rails</h3>
-                    <p>Integrate Push Notification Using FCM</p>
-                    <p class="date">Date: April 12, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 4: Web Development Basics</h3>
-                    <p>Join us for an introduction to web development with HTML, CSS, and JavaScript.</p>
-                    <p class="date">Date: April 19, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 5: React.js Fundamentals</h3>
-                    <p>Learn the core concepts of React and how to build modern web apps.</p>
-                    <p class="date">Date: April 26, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 6: Node.js and Express</h3>
-                    <p>Explore server-side development with Node.js and Express for building APIs.</p>
-                    <p class="date">Date: May 03, 2025</p>
+                <div class="md:w-1/2 md:pl-10 lg:pl-20">
+                    <div class="terminal mx-auto max-w-lg slide-in" style="animation-delay: 0.1s;">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button close"></div>
+                                <div class="terminal-button minimize"></div>
+                                <div class="terminal-button maximize"></div>
+                            </div>
+                            <div class="terminal-title">terminal ~/projects/railsapp</div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> rails new my_app -d postgresql
+                            </div>
+                            <div class="mb-2 text-gray-400 text-sm">
+                                # Creating a new Rails application with PostgreSQL
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-green-400">✓</span> Created database 'my_app_development'
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-green-400">✓</span> Created database 'my_app_test'
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-yellow-400">✔</span> Rails application created!
+                            </div>
+                            
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> cd my_app
+                            </div>
+                            <div class="mb-4 text-gray-400 text-sm">
+                                # Changing to project directory
+                            </div>
+                            
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> rails generate scaffold Post title:string body:text
+                            </div>
+                            <div class="mb-2 text-gray-400 text-sm">
+                                # Generating a scaffold for blog posts
+                            </div>
+                            <div class="mb-2">
+                                <span class="path-highlight">invoke</span>  active_record
+                            </div>
+                            <div class="mb-2">
+                                <span class="path-highlight">create</span>    db/migrate/20230815123456_create_posts.rb
+                            </div>
+                            <div class="mb-2">
+                                <span class="path-highlight">create</span>    app/models/post.rb
+                            </div>
+                            <div class="mb-2">
+                                <span class="path-highlight">create</span>    app/controllers/posts_controller.rb
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-green-400">✓</span> Scaffold complete! Run <span class="command-highlight">rails db:migrate</span>
+                            </div>
+                            
+                            <div class="flex">
+                                <span class="terminal-prompt">→</span>
+                                <div class="ml-2">
+                                    <span class="terminal-cursor"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Technologies Section -->
-    <section class="technologies">
-        <div class="container">
-            <h2>Technologies We Use</h2>
-            <div class="tech-list">
-                <div class="tech">
-                    <h3>HTML5</h3>
-                    <p>The backbone of web content structure.</p>
+    <!-- Learning Path Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Your <span class="gradient-text">Rails Journey</span> Starts Here</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Structured learning path from Ruby basics to advanced Rails concepts</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Vertical line -->
+                <div class="absolute left-1/2 h-full w-0.5 bg-gray-200 transform -translate-x-1/2"></div>
+                
+                <!-- Steps -->
+                <div class="space-y-12">
+                    <!-- Step 1 -->
+                    <div class="relative flex md:flex-row flex-col items-center">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0">
+                            <div class="p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition duration-300 roadmap-stage active-step">
+                                <div class="flex items-center mb-3 md:justify-end">
+                                    <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mr-4">
+                                        <span class="text-xl font-bold gradient-text">1</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Ruby Fundamentals</h3>
+                                </div>
+                                <p class="text-gray-600">Master the Ruby language basics before diving into Rails.</p>
+                                <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-xs font-medium">Variables</span>
+                                    <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-xs font-medium">Methods</span>
+                                    <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-xs font-medium">Classes</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-16">
+                            <div class="h-64 bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+                                <div class="terminal h-full">
+                                    <div class="terminal-body">
+                                        <div class="mb-3 comment-highlight"># Ruby basics example</div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">class</span> <span class="text-yellow-300">Person</span>
+                                        </div>
+                                        <div class="mb-2 ml-4">
+                                            <span class="path-highlight">attr_accessor</span> <span class="text-green-400">:name</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">def</span> <span class="text-pink-400">initialize</span>(name)
+                                        </div>
+                                        <div class="mb-2 ml-4">
+                                            <span class="text-blue-300">@name</span> = name
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">end</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">def</span> <span class="text-pink-400">greet</span>
+                                        </div>
+                                        <div class="mb-2 ml-4">
+                                            puts <span class="text-green-400">"Hello, <span class="text-blue-300">#{@name}</span>!"</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">end</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="path-highlight">end</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="relative flex md:flex-row flex-col items-center">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 order-2 md:order-1">
+                            <div class="h-64 bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+                                <div class="terminal h-full">
+                                    <div class="terminal-body">
+                                        <div class="comment-highlight mb-2"># Rails Model example</div>
+                                        <div class="path-highlight mb-2">class Post < ActiveRecord::Base</div>
+                                        <div class="ml-4 mb-3 path-highlight">has_many :comments</div>
+                                        <div class="ml-4 mb-3 path-highlight">validates :title, presence: true</div>
+                                        <div class="path-highlight mb-4">end</div>
+                                        
+                                        <div class="comment-highlight mb-2"># Controller example</div>
+                                        <div class="path-highlight mb-2">class PostsController < ApplicationController</div>
+                                        <div class="ml-4 mb-2 path-highlight">def index</div>
+                                        <div class="ml-8 mb-2">@posts = Post.all</div>
+                                        <div class="ml-4 path-highlight">end</div>
+                                        <div class="path-highlight">end</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
+                            <div class="p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition duration-300 roadmap-stage">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mr-4">
+                                        <span class="text-xl font-bold text-blue-600">2</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Rails Basics</h3>
+                                </div>
+                                <p class="text-gray-600">Understand MVC architecture, routing, and basic CRUD operations.</p>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">Models</span>
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">Controllers</span>
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">Views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="relative flex md:flex-row flex-col items-center">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0">
+                            <div class="p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition duration-300 roadmap-stage">
+                                <div class="flex items-center mb-3 md:justify-end">
+                                    <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center mr-4">
+                                        <span class="text-xl font-bold text-purple-600">3</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Database & Associations</h3>
+                                </div>
+                                <p class="text-gray-600">Learn ActiveRecord, migrations, and model relationships.</p>
+                                <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-medium">Migrations</span>
+                                    <span class="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-medium">Associations</span>
+                                    <span class="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-medium">Queries</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-16">
+                            <div class="h-64 bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+                                <div class="terminal h-full">
+                                    <div class="terminal-body">
+                                        <div class="mb-2 comment-highlight"># Migration example</div>
+                                        <div class="mb-2 path-highlight">class CreateComments < ActiveRecord::Migration[6.1]</div>
+                                        <div class="ml-4 mb-2 path-highlight">def change</div>
+                                        <div class="ml-8 mb-2 path-highlight">create_table :comments do |t|</div>
+                                        <div class="ml-12 mb-1">t.text :body</div>
+                                        <div class="ml-12 mb-1">t.references :post, foreign_key: true</div>
+                                        <div class="ml-8 path-highlight mb-2">end</div>
+                                        <div class="ml-4 path-highlight">end</div>
+                                        <div class="path-highlight mb-4">end</div>
+                                        
+                                        <div class="mb-2 comment-highlight"># Query example</div>
+                                        <div>Post.includes(:comments).where(<span class="text-green-400">"created_at > ?"</span>, 1.week.ago)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="relative flex md:flex-row flex-col items-center">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 order-2 md:order-1">
+                            <div class="h-64 bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+                                <div class="terminal h-full">
+                                    <div class="terminal-body">
+                                        <div class="mb-2 comment-highlight"># RSpec test example</div>
+                                        <div class="path-highlight">describe PostsController do</div>
+                                        <div class="ml-4 mb-1 path-highlight">describe "GET #index" do</div>
+                                        <div class="ml-8 mb-1">it "assigns all posts as @posts" do</div>
+                                        <div class="ml-12 mb-1">post = create(<span class="text-green-400">:post</span>)</div>
+                                        <div class="ml-12 mb-1">get :index</div>
+                                        <div class="ml-12 mb-2">expect(assigns(<span class="text-green-400">:posts</span>)).to eq([post])</div>
+                                        <div class="ml-8 path-highlight">end</div>
+                                        <div class="ml-4 path-highlight mb-4">end</div>
+                                        
+                                        <div class="path-highlight">describe Post do</div>
+                                        <div class="ml-4 mb-1">it { should validate_presence_of(<span class="text-green-400">:title</span>) }</div>
+                                        <div class="ml-4 mb-1">it { should have_many(<span class="text-green-400">:comments</span>) }</div>
+                                        <div class="path-highlight">end</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
+                            <div class="p-6 rounded-xl bg-white border border-gray-100 shadow-sm transition duration-300 roadmap-stage">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center mr-4">
+                                        <span class="text-xl font-bold text-teal-600">4</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Testing</h3>
+                                </div>
+                                <p class="text-gray-600">Write robust tests with RSpec, Capybara, and Factory Bot.</p>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-medium">RSpec</span>
+                                    <span class="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-medium">Capybara</span>
+                                    <span class="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-medium">Mocks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech">
-                    <h3>CSS3</h3>
-                    <p>Style your websites with modern CSS techniques.</p>
+            </div>
+            
+            <div class="text-center mt-20">
+                <button class="px-8 py-3 border-2 border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition duration-300">
+                    Explore Full Curriculum <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Coding Playground -->
+    <section class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Interactive <span class="gradient-text">Coding Playground</span></h2>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto">Practice Rails coding right in your browser with our live environment</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
+                    <div class="bg-gray-900 px-6 py-3 border-b border-gray-700 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-code text-red-500 mr-2"></i>
+                            <span class="font-mono text-sm">app/controllers/posts_controller.rb</span>
+                        </div>
+                        <button class="text-xs bg-red-600 px-3 py-1 rounded-full hover:bg-red-700 transition">Run Code</button>
+                    </div>
+                    <div class="p-6">
+                        <div class="code-line mb-4" data-tooltip="Controller class definition">
+                            <span class="path-highlight">class</span> <span class="text-yellow-300">PostsController</span> < <span class="text-yellow-300">ApplicationController</span>
+                            <span class="code-tooltip">Controller class definition</span>
+                        </div>
+                        <div class="code-line mb-6" data-tooltip="before_action runs before specified actions">
+                            <span class="ml-4 path-highlight">before_action</span> <span class="text-green-400">:set_post</span>, <span class="path-highlight">only:</span> [<span class="text-green-400">:show</span>, <span class="text-green-400">:edit</span>, <span class="text-green-400">:update</span>, <span class="text-green-400">:destroy</span>]
+                            <span class="code-tooltip">before_action runs before specified actions</span>
+                        </div>
+                        
+                        <div class="code-line mb-4" data-tooltip="GET /posts">
+                            <span class="ml-4 path-highlight">def</span> <span class="text-pink-400">index</span>
+                            <span class="code-tooltip">GET /posts</span>
+                        </div>
+                        <div class="code-line mb-6" data-tooltip="Assigns all posts to @posts instance variable">
+                            <span class="ml-8"><span class="text-blue-300">@posts</span> = <span class="text-yellow-300">Post</span>.all</span>
+                            <span class="code-tooltip">Assigns all posts to @posts instance variable</span>
+                        </div>
+                        
+                        <div class="code-line mb-4" data-tooltip="GET /posts/1">
+                            <span class="ml-4 path-highlight">def</span> <span class="text-pink-400">show</span>
+                            <span class="code-tooltip">GET /posts/1</span>
+                        </div>
+                        <div class="code-line mb-6" data-tooltip="Post is already set by before_action">
+                            <span class="ml-8 comment-highlight"># post is already set by before_action</span>
+                            <span class="code-tooltip">Post is already set by before_action</span>
+                        </div>
+                        
+                        <div class="code-line mb-4" data-tooltip="POST /posts">
+                            <span class="ml-4 path-highlight">def</span> <span class="text-pink-400">create</span>
+                            <span class="code-tooltip">POST /posts</span>
+                        </div>
+                        <div class="code-line mb-4" data-tooltip="Initialize new post with permitted params">
+                            <span class="ml-8"><span class="text-blue-300">@post</span> = <span class="text-yellow-300">Post</span>.new(post_params)</span>
+                            <span class="code-tooltip">Initialize new post with permitted params</span>
+                        </div>
+                        <div class="code-line" data-tooltip="Respond based on save result">
+                            <span class="ml-8 path-highlight">if</span> <span class="text-blue-300">@post</span>.save
+                            <span class="code-tooltip">Respond based on save result</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech">
-                    <h3>JavaScript</h3>
-                    <p>Client-side scripting for interactive web experiences.</p>
-                </div>
-                <div class="tech">
-                    <h3>React</h3>
-                    <p>A JavaScript library for building user interfaces.</p>
-                </div>
-                <div class="tech">
-                    <h3>Node.js</h3>
-                    <p>JavaScript runtime for server-side programming.</p>
-                </div>
-                <div class="tech">
-                    <h3>Express</h3>
-                    <p>Minimal web framework for Node.js to build APIs.</p>
+                
+                <div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 mb-6">
+                        <div class="bg-gray-900 px-6 py-3 border-b border-gray-700">
+                            <div class="flex items-center">
+                                <i class="fas fa-terminal text-yellow-400 mr-2"></i>
+                                <span class="font-mono text-sm">Terminal Output</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> rails server
+                            </div>
+                            <div class="mb-4 text-gray-400 text-sm">
+                                # Starting Rails development server
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-green-400">✓</span> Listening on http://localhost:3000
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-green-400">✓</span> Rails 7.0.4 application starting in development
+                            </div>
+                            
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> Started GET "/posts"
+                            </div>
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span> Processing by PostsController#index
+                            </div>
+                            <div class="mb-2">
+                                <span class="terminal-prompt">→</span>   Rendering posts/index.html.erb
+                            </div>
+                            <div class="mb-4">
+                                <span class="terminal-prompt">→</span>   Rendered posts/index.html.erb (Duration: 12.3ms)
+                            </div>
+                            
+                            <div class="flex">
+                                <span class="terminal-prompt">→</span>
+                                <div class="ml-2">
+                                    <span class="terminal-cursor"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
+                        <div class="bg-gray-900 px-6 py-3 border-b border-gray-700">
+                            <div class="flex items-center">
+                                <i class="fas fa-question-circle text-blue-400 mr-2"></i>
+                                <span class="font-medium">Code Challenge</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-semibold mb-3">Implement the update action</h4>
+                            <p class="text-gray-300 mb-4">Complete the update action in the PostsController to:</p>
+                            <ul class="list-disc list-inside text-gray-300 mb-6 space-y-2">
+                                <li>Use the set_post before_action</li>
+                                <li>Update with permitted params</li>
+                                <li>Respond appropriately to success/failure</li>
+                                <li>Redirect to the show page on success</li>
+                                <li>Re-render the edit form on failure</li>
+                            </ul>
+                            
+                            <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg flex items-center">
+                                <i class="fas fa-lightbulb mr-2"></i> Show Solution
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Us Section -->
-    <section id="contact" class="contact">
-    <div class="container">
-        <h2>Contact Us</h2>
-        <footer>
-            <p><strong>Mobile:</strong> <a href="tel:+1234567890">+91 9131322326</a></p>
-            <p><strong>Email:</strong> <a href="mailto:youremail@gmail.com">gurjaranand918@gmail.com</a></p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/yourprofile" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/in/anand-gurjar-69a1091b7/">LinkedIn</a>
+    <!-- Community Projects -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Community <span class="gradient-text">Projects</span></h2>
+                    <p class="text-gray-600">Real-world projects built by our members</p>
+                </div>
+                <div class="flex space-x-3 mt-4 md:mt-0">
+                    <button class="bg-white text-gray-800 px-6 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 hover:shadow-md transform transition duration-300 flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Submit Project
+                    </button>
+                    <button class="bg-red-50 text-red-600 px-6 py-2 rounded-lg hover:bg-red-100 hover:shadow-md transform transition duration-300 flex items-center">
+                        <i class="fas fa-star mr-2"></i> Featured
+                    </button>
+                </div>
             </div>
-        </footer>
-    </div>
-</section>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Project" class="absolute h-full w-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <div class="flex items-center text-white">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">DevMatch</h4>
+                                    <p class="text-sm">by @johndoe</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-medium">Featured</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Developer Matchmaking Platform</h3>
+                        <p class="text-gray-600 mb-4">A Rails application that connects developers with project collaborators based on skills and interests.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Action Cable</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Stripe</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Search</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-code-branch mr-1"></i> 42
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-star mr-1"></i> 128
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-eye mr-1"></i> 1.2K
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Project" class="absolute h-full w-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <div class="flex items-center text-white">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">RecipeApp</h4>
+                                    <p class="text-sm">by @chefdev</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Community Recipe Sharing App</h3>
+                        <p class="text-gray-600 mb-4">A social platform for sharing and discovering recipes with grocery list generation.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Devise</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Image Upload</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Voting</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-code-branch mr-1"></i> 28
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-star mr-1"></i> 89
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-eye mr-1"></i> 870
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1607748851687-ba9a10438621?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Project" class="absolute h-full w-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <div class="flex items-center text-white">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">TaskFlow</h4>
+                                    <p class="text-sm">by @productivitypro</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">New</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Team Task Management System</h3>
+                        <p class="text-gray-600 mb-4">A Kanban-style task manager with real-time updates and team collaboration features.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Hotwire</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">StimulusJS</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">Drag & Drop</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-code-branch mr-1"></i> 15
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-star mr-1"></i> 64
+                            </div>
+                            <div class="flex items-center text-gray-500">
+                                <i class="fas fa-eye mr-1"></i> 512
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Live Events Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Upcoming <span class="gradient-text">Live Events</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Join our interactive sessions, workshops, and Q&A with Rails experts</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <div class="absolute inset-0 bg-red-600 flex items-center justify-center text-white">
+                            <div class="text-center p-6">
+                                <div class="text-3xl font-bold mb-2">25</div>
+                                <div class="text-sm">OCT</div>
+                            </div>
+                        </div>
+                        <div class="absolute right-4 top-4">
+                            <span class="px-3 py-1 bg-white bg-opacity-20 text-white rounded-full text-xs font-medium">Workshop</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Advanced Active Record Patterns</h3>
+                        <p class="text-gray-600 mb-4">Learn how to optimize complex queries and leverage advanced Active Record features.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Presenter" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">David Heinemeier Hansson</h4>
+                                    <p class="text-sm text-gray-500">Rails Creator</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-clock mr-1"></i> 19:00 UTC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <div class="absolute inset-0 bg-blue-600 flex items-center justify-center text-white">
+                            <div class="text-center p-6">
+                                <div class="text-3xl font-bold mb-2">03</div>
+                                <div class="text-sm">NOV</div>
+                            </div>
+                        </div>
+                        <div class="absolute right-4 top-4">
+                            <span class="px-3 py-1 bg-white bg-opacity-20 text-white rounded-full text-xs font-medium">Live Demo</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Hotwire in Action</h3>
+                        <p class="text-gray-600 mb-4">Building a real-time application with Turbo and Stimulus without writing JavaScript.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Presenter" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">Sarah Johnson</h4>
+                                    <p class="text-sm text-gray-500">Frontend Architect</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-clock mr-1"></i> 16:00 UTC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transform transition hover:scale-[1.02] duration-300 card-hover">
+                    <div class="relative pb-[60%] overflow-hidden">
+                        <div class="absolute inset-0 bg-purple-600 flex items-center justify-center text-white">
+                            <div class="text-center p-6">
+                                <div class="text-3xl font-bold mb-2">12</div>
+                                <div class="text-sm">NOV</div>
+                            </div>
+                        </div>
+                        <div class="absolute right-4 top-4">
+                            <span class="px-3 py-1 bg-white bg-opacity-20 text-white rounded-full text-xs font-medium">Q&A</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3">Ask Me Anything: Rails Security</h3>
+                        <p class="text-gray-600 mb-4">Submit your questions about securing Rails applications and preventing common vulnerabilities.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Presenter" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">Michael Chen</h4>
+                                    <p class="text-sm text-gray-500">Security Engineer</p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-clock mr-1"></i> 20:00 UTC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 border-2 border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition duration-300">
+                    View All Events <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ready to Join Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Ready to <span class="gradient-text">Level Up</span> Your Rails Skills?</h2>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto mb-8">Join 12,500+ developers in the most engaging Rails learning community</p>
+                <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                    <input type="email" placeholder="Your email address" class="flex-grow px-5 py-3 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    <button class="bg-gradient-to-r from-red-600 to-red-500 text-white px-6 py-3 rounded-lg hover:shadow-lg transform transition duration-300 hover:scale-105">
+                        Join Now
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-white bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 rotate-icon">
+                        <i class="fas fa-code text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Interactive Learning</h3>
+                    <p class="opacity-80">Practice coding with real-time feedback and challenges</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-white bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 rotate-icon">
+                        <i class="fas fa-users text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Community Support</h3>
+                    <p class="opacity-80">Get help from experienced Rails developers</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-white bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 rotate-icon">
+                        <i class="fas fa-briefcase text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Career Growth</h3>
+                    <p class="opacity-80">Access job opportunities and portfolio projects</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
+                <div class="col-span-2">
+                    <a href="#" class="flex items-center space-x-2 mb-6">
+                        <i class="fas fa-code text-3xl gradient-text"></i>
+                        <span class="text-xl font-bold text-white">Rails<span class="gradient-text">Masters</span></span>
+                    </a>
+                    <p class="mb-4">The most interactive Ruby on Rails learning platform and community.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Learn</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition">Roadmap</a></li>
+                        <li><a href="#" class="hover:text-white transition">Exercises</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cheatsheets</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Community</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Forum</a></li>
+                        <li><a href="#" class="hover:text-white transition">Code Review</a></li>
+                        <li><a href="#" class="hover:text-white transition">Projects</a></li>
+                        <li><a href="#" class="hover:text-white transition">Events</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Podcasts</a></li>
+                        <li><a href="#" class="hover:text-white transition">Books</a></li>
+                        <li><a href="#" class="hover:text-white transition">Jobs</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2023 RailsMasters. All rights reserved.</p>
+                <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="hover:text-white transition">Terms</a>
+                    <a href="#" class="hover:text-white transition">Privacy</a>
+                    <a href="#" class="hover:text-white transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize animations for elements in viewport
+        function initAnimations() {
+            // Counters
+            const counters = document.querySelectorAll('.countup');
+            const speed = 200;
+            
+            function animateCounters() {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText.replace(/,/g, '');
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment).toLocaleString();
+                        setTimeout(animateCounters, 1);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                });
+            }
+
+            // Create intersection observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Trigger counter animation
+                        if (entry.target.querySelector('.countup')) {
+                            animateCounters();
+                        }
+                        
+                        // Add slide-in animation
+                        const slideIns = entry.target.querySelectorAll('.slide-in');
+                        slideIns.forEach(el => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                        });
+                        
+                        // Add other animations as needed
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Observe sections that need animations
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // Initialize tooltips for code examples
+        function initCodeTooltips() {
+            const codeLines = document.querySelectorAll('.code-line');
+            
+            codeLines.forEach(line => {
+                const tooltip = document.createElement('span');
+                tooltip.className = 'code-tooltip';
+                tooltip.textContent = line.getAttribute('data-tooltip');
+                line.appendChild(tooltip);
+                
+                line.addEventListener('mouseenter', function() {
+                    tooltip.style.visibility = 'visible';
+                    tooltip.style.opacity = '1';
+                });
+                
+                line.addEventListener('mouseleave', function() {
+                    tooltip.style.visibility = 'hidden';
+                    tooltip.style.opacity = '0';
+                });
+            });
+        }
+
+        // Document ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initAnimations();
+            initCodeTooltips();
+        });
+    </script>
 </body>
 </html>
-  
