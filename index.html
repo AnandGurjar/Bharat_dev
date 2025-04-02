@@ -1,116 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tech Sessions - Full Page</title>
-    <link rel="stylesheet" href="styles.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>DevSphere - Developer Community</title>
+ <script src="https://cdn.tailwindcss.com"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <style>
+ @keyframes rotateLogo {
+ 0% { transform: rotateX(0deg); }
+ 100% { transform: rotateX(360deg); }
+ }
+ 
+ @keyframes pulse {
+ 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+ 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+ 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+ }
+ 
+ @keyframes shake {
+ 0%, 100% { transform: translateX(0); }
+ 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+ 20%, 40%, 60%, 80% { transform: translateX(5px); }
+ }
+ 
+ @keyframes float {
+ 0% { transform: translateY(0px); }
+ 50% { transform: translateY(-10px); }
+ 100% { transform: translateY(0px); }
+ }
+ 
+ @keyframes cracker {
+ 0% { transform: translateY(0) scale(0); opacity: 0; }
+ 10% { opacity: 1; }
+ 100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+ }
+ 
+ .rotating-logo {
+ animation: rotateLogo 8s linear infinite;
+ }
+ 
+ .pulse-button {
+ animation: pulse 2s infinite;
+ }
+ 
+ .shake-on-hover:hover {
+ animation: shake 0.5s;
+ }
+ 
+ .floating {
+ animation: float 3s ease-in-out infinite;
+ }
+ 
+ .cracker {
+ position: absolute;
+ width: 10px;
+ height: 20px;
+ background: linear-gradient(to bottom, #ef4444, #f59e0b);
+ border-radius: 50% 50% 0 0;
+ z-index: -1;
+ opacity: 0;
+ }
+ 
+ .firework {
+ position: absolute;
+ width: 5px;
+ height: 5px;
+ border-radius: 50%;
+ box-shadow: 0 0 10px 5px rgba(239, 68, 68, 0.7);
+ z-index: -1;
+ opacity: 0;
+ }
+ 
+ .gradient-text {
+ background: linear-gradient(45deg, #ef4444, #f59e0b);
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ }
+ 
+ .video-card:hover {
+ transform: scale(1.03);
+ box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+ }
+ 
+ .coming-soon {
+ position: relative;
+ overflow: hidden;
+ }
+ 
+ .coming-soon::after {
+ content: "COMING SOON";
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.7);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: bold;
+ font-size: 1.5rem;
+ color: #ef4444;
+ text-transform: uppercase;
+ }
+ </style>
 </head>
-<body>
+<body class="bg-gray-900 text-gray-200 min-h-screen font-sans">
+ <!-- Fireworks Container -->
+ <div id="fireworks-container"></div>
+ 
+ <!-- Navigation -->
+ <nav class="bg-gray-800 border-b border-red-900 sticky top-0 z-50">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div class="flex items-center justify-between h-16">
+ <div class="flex items-center">
+ <div class="flex-shrink-0">
+ <div class="flex items-center">
+ <i class="fas fa-code text-red-500 text-2xl mr-2 floating"></i>
+ <span class="text-xl font-bold gradient-text">DevSphere</span>
+ </div>
+ </div>
+ <div class="hidden md:block">
+ <div class="ml-10 flex items-baseline space-x-4">
+ <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-900 text-white">Home</a>
+ <a href="#forum" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Forum</a>
+ <a href="#videos" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Videos</a>
+ <a href="#live" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Live</a>
+ <a href="#profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Profile</a>
+ </div>
+ </div>
+ </div>
+ <div class="hidden md:block">
+ <div class="ml-4 flex items-center md:ml-6">
+ <button class="p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+ <span class="sr-only">View notifications</span>
+ <i class="fas fa-bell text-xl relative">
+ <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 pulse-button"></span>
+ </i>
+ </button>
+ <div class="ml-3 relative">
+ <div>
+ <button class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu">
+ <span class="sr-only">Open user menu</span>
+ <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+ </button>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="-mr-2 flex md:hidden">
+ <button type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+ <span class="sr-only">Open main menu</span>
+ <i class="fas fa-bars"></i>
+ </button>
+ </div>
+ </div>
+ </div>
+ </nav>
 
-    <!-- Header Section -->
-    <header>
-        <nav>
-            <div class="container">
-                <h1>Tech Sessions</h1>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Upcoming Sessions</a></li>
-                    <li><a href="#">Technologies</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+ <!-- Hero Section -->
+ <header class="relative overflow-hidden">
+ <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+ <div class="text-center">
+ <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+ <span class="block gradient-text">Developer Community</span>
+ <span class="block text-red-500 mt-2 shake-on-hover">Powered by Ruby</span>
+ </h1>
+ <p class="mt-6 max-w-lg mx-auto text-lg text-gray-300">
+ Connect, collaborate, and grow with developers worldwide. Share your knowledge, learn new skills, and build amazing projects together.
+ </p>
+ <div class="mt-10 flex justify-center">
+ <div class="rounded-md shadow">
+ <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 md:py-4 md:text-lg md:px-10 shake-on-hover">
+ Join Now
+ </a>
+ </div>
+ <div class="ml-3 rounded-md shadow">
+ <a href="#forum" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-red-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 shake-on-hover">
+ Explore Forum
+ </a>
+ </div>
+ </div>
+ </div>
+ <div class="absolute top-1/4 right-10 hidden lg:block">
+ <i class="fas fa-gem text-red-500 text-8xl rotating-logo"></i>
+ </div>
+ </div>
+ </header>
 
-    <!-- Weekly Upcoming Sessions Section -->
-    <section class="sessions">
-        <div class="container">
-            <h2>Upcoming Sessions</h2>
-            <div class="sessions-list">
-                <div class="session">
-                    <h3>Session 1: Ruby On Rails</h3>
-                    <p>Integrate Stripe payment Gateway</p>
-                    <p class="date">Date: March 29, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 2: Ruby On Rails</h3>
-                    <p>Live Chat Using Action Cable</p>
-                    <p class="date">Date: April 05, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 3: Ruby On Rails</h3>
-                    <p>Integrate Push Notification Using FCM</p>
-                    <p class="date">Date: April 12, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 4: Web Development Basics</h3>
-                    <p>Join us for an introduction to web development with HTML, CSS, and JavaScript.</p>
-                    <p class="date">Date: April 19, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 5: React.js Fundamentals</h3>
-                    <p>Learn the core concepts of React and how to build modern web apps.</p>
-                    <p class="date">Date: April 26, 2025</p>
-                </div>
-                <div class="session">
-                    <h3>Session 6: Node.js and Express</h3>
-                    <p>Explore server-side development with Node.js and Express for building APIs.</p>
-                    <p class="date">Date: May 03, 2025</p>
-                </div>
-            </div>
-        </div>
-    </section>
+ <!-- Main Content -->
+ <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+ <!-- Forum Section -->
+ <section id="forum" class="mb-20">
+ <div class="flex justify-between items-center mb-8">
+ <h2 class="text-3xl font-bold gradient-text">Discussion Forum</h2>
+ <button id="create-post" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center shake-on-hover">
+ <i class="fas fa-plus mr-2"></i> New Post
+ </button>
+ </div>
+ 
+ <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+ <div class="space-y-6">
+ <!-- Forum Post 1 -->
+ <div class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+ <div class="flex items-start">
+ <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/42.jpg" alt="">
+ <div class="ml-4 flex-1">
+ <div class="flex items-center justify-between">
+ <h3 class="text-lg font-medium text-white">How to optimize Ruby on Rails performance?</h3>
+ <span class="text-xs text-gray-400">2 hours ago</span>
+ </div>
+ <p class="mt-1 text-gray-300">I'm working on a large Rails application and noticing some performance issues. What are the best practices for optimizing Rails apps?</p>
+ <div class="mt-2 flex items-center text-sm text-gray-400">
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-comment mr-1"></i> 12
+ </button>
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-heart mr-1"></i> 24
+ </button>
+ <button class="flex items-center hover:text-red-400">
+ <i class="fas fa-share mr-1"></i> Share
+ </button>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Forum Post 2 -->
+ <div class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+ <div class="flex items-start">
+ <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+ <div class="ml-4 flex-1">
+ <div class="flex items-center justify-between">
+ <h3 class="text-lg font-medium text-white">Showcase your latest project!</h3>
+ <span class="text-xs text-gray-400">5 hours ago</span>
+ </div>
+ <p class="mt-1 text-gray-300">Just finished building a Ruby CLI tool for managing local development environments. Would love to get feedback from the community!</p>
+ <div class="mt-2 flex items-center text-sm text-gray-400">
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-comment mr-1"></i> 8
+ </button>
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-heart mr-1"></i> 15
+ </button>
+ <button class="flex items-center hover:text-red-400">
+ <i class="fas fa-share mr-1"></i> Share
+ </button>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Forum Post 3 -->
+ <div class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+ <div class="flex items-start">
+ <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+ <div class="ml-4 flex-1">
+ <div class="flex items-center justify-between">
+ <h3 class="text-lg font-medium text-white">Ruby 3.2.0 released - What's new?</h3>
+ <span class="text-xs text-gray-400">1 day ago</span>
+ </div>
+ <p class="mt-1 text-gray-300">The latest Ruby version is out! Let's discuss the new features and improvements. What are you most excited about?</p>
+ <div class="mt-2 flex items-center text-sm text-gray-400">
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-comment mr-1"></i> 21
+ </button>
+ <button class="flex items-center mr-4 hover:text-red-400">
+ <i class="fas fa-heart mr-1"></i> 42
+ </button>
+ <button class="flex items-center hover:text-red-400">
+ <i class="fas fa-share mr-1"></i> Share
+ </button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="mt-6 flex justify-center">
+ <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md flex items-center shake-on-hover">
+ Load More Posts
+ </button>
+ </div>
+ </div>
+ </section>
+ 
+ <!-- Videos Section -->
+ <section id="videos" class="mb-20">
+ <div class="flex justify-between items-center mb-8">
+ <h2 class="text-3xl font-bold gradient-text">Video Tutorials</h2>
+ <button id="upload-video" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center shake-on-hover">
+ <i class="fas fa-upload mr-2"></i> Upload Video
+ </button>
+ </div>
+ 
+ <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+ <!-- Video Card 1 -->
+ <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg video-card transition duration-300">
+ <div class="relative pb-[56.25%] bg-black">
+ <img src="https://i.ytimg.com/vi/t_ispmWmdjY/maxresdefault.jpg" alt="Ruby Tutorial" class="absolute h-full w-full object-cover">
+ <div class="absolute inset-0 flex items-center justify-center">
+ <button class="bg-red-600 bg-opacity-80 hover:bg-opacity-100 rounded-full p-4 transition duration-300">
+ <i class="fas fa-play text-white text-xl"></i>
+ </button>
+ </div>
+ </div>
+ <div class="p-4">
+ <h3 class="text-lg font-medium text-white mb-2">Ruby for Beginners - Full Course</h3>
+ <p class="text-gray-400 text-sm mb-3">Learn Ruby programming from scratch with this comprehensive tutorial covering all the fundamentals.</p>
+ <div class="flex items-center text-sm text-gray-500">
+ <img class="h-8 w-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+ <span>John Doe</span>
+ <span class="mx-2">•</span>
+ <span>2 days ago</span>
+ <span class="mx-2">•</span>
+ <span><i class="fas fa-eye mr-1"></i> 1.2K</span>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Video Card 2 -->
+ <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg video-card transition duration-300">
+ <div class="relative pb-[56.25%] bg-black">
+ <img src="https://i.ytimg.com/vi/fmyvWz5TUWg/maxresdefault.jpg" alt="Rails Tutorial" class="absolute h-full w-full object-cover">
+ <div class="absolute inset-0 flex items-center justify-center">
+ <button class="bg-red-600 bg-opacity-80 hover:bg-opacity-100 rounded-full p-4 transition duration-300">
+ <i class="fas fa-play text-white text-xl"></i>
+ </button>
+ </div>
+ </div>
+ <div class="p-4">
+ <h3 class="text-lg font-medium text-white mb-2">Rails API Development Guide</h3>
+ <p class="text-gray-400 text-sm mb-3">Building a RESTful API with Ruby on Rails - best practices and advanced techniques.</p>
+ <div class="flex items-center text-sm text-gray-500">
+ <img class="h-8 w-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/33.jpg" alt="">
+ <span>Jane Smith</span>
+ <span class="mx-2">•</span>
+ <span>1 week ago</span>
+ <span class="mx-2">•</span>
+ <span><i class="fas fa-eye mr-1"></i> 3.4K</span>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Video Card 3 -->
+ <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg video-card transition duration-300">
+ <div class="relative pb-[56.25%] bg-black">
+ <img src="https://i.ytimg.com/vi/5i6rJf9fX6I/maxresdefault.jpg" alt="Metaprogramming" class="absolute h-full w-full object-cover">
+ <div class="absolute inset-0 flex items-center justify-center">
+ <button class="bg-red-600 bg-opacity-80 hover:bg-opacity-100 rounded-full p-4 transition duration-300">
+ <i class="fas fa-play text-white text-xl"></i>
+ </button>
+ </div>
+ </div>
+ <div class="p-4">
+ <h3 class="text-lg font-medium text-white mb-2">Ruby Metaprogramming Explained</h3>
+ <p class="text-gray-400 text-sm mb-3">Deep dive into Ruby's metaprogramming capabilities with practical examples.</p>
+ <div class="flex items-center text-sm text-gray-500">
+ <img class="h-8 w-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+ <span>Mike Johnson</span>
+ <span class="mx-2">•</span>
+ <span>3 weeks ago</span>
+ <span class="mx-2">•</span>
+ <span><i class="fas fa-eye mr-1"></i> 5.7K</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ 
+ <!-- Live Sessions Section -->
+ <section id="live" class="mb-20">
+ <h2 class="text-3xl font-bold gradient-text mb-8">Live Coding Sessions</h2>
+ 
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <!-- Live Session 1 -->
+ <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg coming-soon">
+ <div class="relative pb-[56.25%] bg-black">
+ <img src="https://i.ytimg.com/vi/pPy0GQJLZUM/maxresdefault.jpg" alt="Live Session" class="absolute h-full w-full object-cover">
+ </div>
+ <div class="p-4">
+ <h3 class="text-lg font-medium text-white mb-2">Building a Ruby Gem from Scratch</h3>
+ <p class="text-gray-400 text-sm">Join us as we create a useful Ruby gem from start to finish, covering all aspects of gem development.</p>
+ </div>
+ </div>
+ 
+ <!-- Live Session 2 -->
+ <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg coming-soon">
+ <div class="relative pb-[56.25%] bg-black">
+ <img src="https://i.ytimg.com/vi/G7VTbT5wQ7o/maxresdefault.jpg" alt="Live Session" class="absolute h-full w-full object-cover">
+ </div>
+ <div class="p-4">
+ <h3 class="text-lg font-medium text-white mb-2">Advanced Rails Patterns</h3>
+ <p class="text-gray-400 text-sm">Learn about service objects, form objects, query objects and other advanced Rails patterns.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+ 
+ <!-- Profile Section -->
+ <section id="profile" class="mb-20">
+ <h2 class="text-3xl font-bold gradient-text mb-8">Your Profile</h2>
+ 
+ <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+ <div class="flex flex-col md:flex-row">
+ <div class="md:w-1/3 flex flex-col items-center mb-6 md:mb-0">
+ <img class="h-32 w-32 rounded-full mb-4" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+ <h3 class="text-xl font-bold text-white">Alex Johnson</h3>
+ <p class="text-gray-400">Ruby Developer</p>
+ <div class="mt-4 flex space-x-4">
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-github text-xl"></i>
+ </a>
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-twitter text-xl"></i>
+ </a>
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-linkedin text-xl"></i>
+ </a>
+ </div>
+ </div>
+ <div class="md:w-2/3 md:pl-8">
+ <div class="mb-6">
+ <h4 class="text-lg font-medium text-white mb-2">About</h4>
+ <p class="text-gray-400">
+ Passionate Ruby developer with 5+ years of experience building web applications. 
+ Love open source and contributing to the Ruby community. Currently working on 
+ a new gem for background job processing.
+ </p>
+ </div>
+ 
+ <div class="mb-6">
+ <h4 class="text-lg font-medium text-white mb-2">Skills</h4>
+ <div class="flex flex-wrap gap-2">
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">Ruby</span>
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">Rails</span>
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">RSpec</span>
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">PostgreSQL</span>
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">Redis</span>
+ <span class="px-3 py-1 bg-gray-700 rounded-full text-sm text-white">Sidekiq</span>
+ </div>
+ </div>
+ 
+ <div>
+ <h4 class="text-lg font-medium text-white mb-2">Activity</h4>
+ <div class="space-y-4">
+ <div class="flex items-start">
+ <div class="flex-shrink-0 bg-gray-700 rounded-full p-2 mr-3">
+ <i class="fas fa-comment text-red-500"></i>
+ </div>
+ <div>
+ <p class="text-sm text-gray-400">You commented on "Ruby 3.2 Performance Improvements"</p>
+ <p class="text-xs text-gray-500">2 hours ago</p>
+ </div>
+ </div>
+ <div class="flex items-start">
+ <div class="flex-shrink-0 bg-gray-700 rounded-full p-2 mr-3">
+ <i class="fas fa-heart text-red-500"></i>
+ </div>
+ <div>
+ <p class="text-sm text-gray-400">You liked "Building APIs with Grape"</p>
+ <p class="text-xs text-gray-500">1 day ago</p>
+ </div>
+ </div>
+ <div class="flex items-start">
+ <div class="flex-shrink-0 bg-gray-700 rounded-full p-2 mr-3">
+ <i class="fas fa-upload text-red-500"></i>
+ </div>
+ <div>
+ <p class="text-sm text-gray-400">You uploaded "Ruby Metaprogramming Tricks"</p>
+ <p class="text-xs text-gray-500">3 days ago</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ </main>
+ 
+ <!-- Footer -->
+ <footer class="bg-gray-800 border-t border-red-900">
+ <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+ <div>
+ <div class="flex items-center">
+ <i class="fas fa-code text-red-500 text-2xl mr-2"></i>
+ <span class="text-xl font-bold gradient-text">DevSphere</span>
+ </div>
+ <p class="mt-4 text-gray-400">
+ A community for Ruby developers to connect, learn and grow together.
+ </p>
+ </div>
+ <div>
+ <h3 class="text-lg font-medium text-white mb-4">Quick Links</h3>
+ <ul class="space-y-2">
+ <li><a href="#" class="text-gray-400 hover:text-red-400">Home</a></li>
+ <li><a href="#forum" class="text-gray-400 hover:text-red-400">Forum</a></li>
+ <li><a href="#videos" class="text-gray-400 hover:text-red-400">Videos</a></li>
+ <li><a href="#live" class="text-gray-400 hover:text-red-400">Live Sessions</a></li>
+ <li><a href="#profile" class="text-gray-400 hover:text-red-400">Profile</a></li>
+ </ul>
+ </div>
+ <div>
+ <h3 class="text-lg font-medium text-white mb-4">Connect With Us</h3>
+ <div class="flex space-x-4">
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-twitter text-xl"></i>
+ </a>
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-github text-xl"></i>
+ </a>
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-discord text-xl"></i>
+ </a>
+ <a href="#" class="text-gray-400 hover:text-red-400">
+ <i class="fab fa-youtube text-xl"></i>
+ </a>
+ </div>
+ <div class="mt-6">
+ <button id="celebrate" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center shake-on-hover">
+ <i class="fas fa-fire mr-2"></i> Celebrate!
+ </button>
+ </div>
+ </div>
+ </div>
+ <div class="mt-12 pt-8 border-t border-gray-700">
+ <p class="text-gray-400 text-center">
+ &copy; 2023 DevSphere. All rights reserved.
+ </p>
+ </div>
+ </div>
+ </footer>
 
-    <!-- Technologies Section -->
-    <section class="technologies">
-        <div class="container">
-            <h2>Technologies We Use</h2>
-            <div class="tech-list">
-                <div class="tech">
-                    <h3>HTML5</h3>
-                    <p>The backbone of web content structure.</p>
-                </div>
-                <div class="tech">
-                    <h3>CSS3</h3>
-                    <p>Style your websites with modern CSS techniques.</p>
-                </div>
-                <div class="tech">
-                    <h3>JavaScript</h3>
-                    <p>Client-side scripting for interactive web experiences.</p>
-                </div>
-                <div class="tech">
-                    <h3>React</h3>
-                    <p>A JavaScript library for building user interfaces.</p>
-                </div>
-                <div class="tech">
-                    <h3>Node.js</h3>
-                    <p>JavaScript runtime for server-side programming.</p>
-                </div>
-                <div class="tech">
-                    <h3>Express</h3>
-                    <p>Minimal web framework for Node.js to build APIs.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Us Section -->
-    <section id="contact" class="contact">
-    <div class="container">
-        <h2>Contact Us</h2>
-        <footer>
-            <p><strong>Mobile:</strong> <a href="tel:+1234567890">+91 9131322326</a></p>
-            <p><strong>Email:</strong> <a href="mailto:youremail@gmail.com">gurjaranand918@gmail.com</a></p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/yourprofile" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/in/anand-gurjar-69a1091b7/">LinkedIn</a>
-            </div>
-        </footer>
-    </div>
-</section>
-
+ <script>
+ // Create fireworks when clicking the celebrate button
+ document.getElementById('celebrate').addEventListener('click', function() {
+ createFireworks(30);
+ });
+ 
+ // Create crackers when clicking the join now button
+ document.querySelector('a[href="#"]').addEventListener('click', function(e) {
+ e.preventDefault();
+ createCrackers(20);
+ });
+ 
+ // Create crackers when clicking the upload video button
+ document.getElementById('upload-video').addEventListener('click', function(e) {
+ e.preventDefault();
+ createCrackers(15);
+ alert('Video upload feature coming soon!');
+ });
+ 
+ // Create crackers when clicking the create post button
+ document.getElementById('create-post').addEventListener('click', function(e) {
+ e.preventDefault();
+ createCrackers(10);
+ alert('New post form will appear here!');
+ });
+ 
+ function createCrackers(count) {
+ const container = document.getElementById('fireworks-container');
+ 
+ for (let i = 0; i < count; i++) {
+ const cracker = document.createElement('div');
+ cracker.className = 'cracker';
+ 
+ // Random position
+ const left = Math.random() * 100;
+ cracker.style.left = `${left}%`;
+ cracker.style.bottom = '0';
+ 
+ // Random delay
+ const delay = Math.random() * 3;
+ cracker.style.animation = `cracker ${1 + Math.random() * 2}s ease-out ${delay}s forwards`;
+ 
+ // Random size
+ const size = 5 + Math.random() * 10;
+ cracker.style.width = `${size}px`;
+ cracker.style.height = `${size * 2}px`;
+ 
+ container.appendChild(cracker);
+ 
+ // Remove after animation
+ setTimeout(() => {
+ cracker.remove();
+ }, (delay + 3) * 1000);
+ }
+ }
+ 
+ function createFireworks(count) {
+ const container = document.getElementById('fireworks-container');
+ 
+ for (let i = 0; i < count; i++) {
+ setTimeout(() => {
+ const firework = document.createElement('div');
+ firework.className = 'firework';
+ 
+ // Random position
+ const left = Math.random() * 100;
+ const top = 30 + Math.random() * 50;
+ firework.style.left = `${left}%`;
+ firework.style.top = `${top}%`;
+ 
+ // Random color
+ const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'];
+ const color = colors[Math.floor(Math.random() * colors.length)];
+ firework.style.boxShadow = `0 0 10px 5px ${color}`;
+ 
+ // Random size
+ const size = 3 + Math.random() * 7;
+ firework.style.width = `${size}px`;
+ firework.style.height = `${size}px`;
+ 
+ firework.style.animation = 'cracker 1s ease-out forwards';
+ 
+ container.appendChild(firework);
+ 
+ // Remove after animation
+ setTimeout(() => {
+ firework.remove();
+ }, 1000);
+ }, i * 100);
+ }
+ }
+ 
+ // Add shake effect to all elements with shake-on-hover class on hover
+ document.querySelectorAll('.shake-on-hover').forEach(element => {
+ element.addEventListener('mouseenter', function() {
+ this.style.animation = 'shake 0.5s';
+ });
+ 
+ element.addEventListener('animationend', function() {
+ this.style.animation = '';
+ });
+ });
+ </script>
 </body>
 </html>
-  
+
